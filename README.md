@@ -12,7 +12,7 @@ Automated TokenHarbor account registration, free model activation, and 9router i
 ## Setup
 ```bash
 git clone https://github.com/dvaaagl/ApiBor.git
-cd botbor
+cd ApiBor
 pip install -r requirements.txt
 ```
 a
