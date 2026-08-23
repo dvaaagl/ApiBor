@@ -11,11 +11,11 @@ Automated TokenHarbor account registration, free model activation, and 9router i
 
 ## Setup
 ```bash
-git clone https://github.com/yourusername/botbor.git
+git clone https://github.com/dvaaagl/botbor.git
 cd botbor
 pip install -r requirements.txt
 ```
-
+a
 ## License Required
 This bot is license-protected. On first run, you'll see your **Machine ID**.
 
@@ -43,16 +43,6 @@ python3 bot.py 9router            # Show 9router entries
 export BOTBOR_PROXY="http://user:pass@proxy:port"
 # or add to .env file
 ```
-
-## Files
-| File | Description |
-|------|-------------|
-| `bot.py` | Main entry (license check + loader) |
-| `_core.py` | Bot logic (encoded) |
-| `keygen.py` | License generator (DO NOT SHARE) |
-| `accounts.json` | Created accounts |
-| `apikeys.txt` | API keys |
-| `.license` | Your license key (auto-created) |
 
 ## License
 Proprietary. Contact [@omopagll](https://t.me/omopagll) for license.
