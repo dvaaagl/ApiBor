@@ -25,7 +25,7 @@ def _av():
 _av()
 
 # Decoder
-def _D(x,d,k):
+def _D(x,k):
   kl=len(k)
   return bytes(x[i]^k[i%kl]for i in range(len(x)))
 
