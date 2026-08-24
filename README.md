@@ -1,58 +1,68 @@
-# botbor — TokenHarbor Auto-Register Bot
+# ApiBor — TokenHarbor Auto-Register Bot
 
-Automated TokenHarbor account registration, free model activation, and 9router injection.
+Auto-register akun [TokenHarbor](https://tokenharbor.ai) + generate API key + test model `mimo-v2.5:free`.
 
-## Features
-- Auto-register via temp email
-- Free model consent (`mimo-v2.5:free`)
-- API key creation + testing
-- 9router SQLite injection
-- Batch mode (N accounts)
+## Cara Pakai
 
-## Setup
+### 1. Clone & Install
+
 ```bash
-git clone https://github.com/yourusername/botbor.git
-cd botbor
+git clone https://github.com/dvaaagl/ApiBor.git
+cd ApiBor
 pip install -r requirements.txt
 ```
 
-## License Required
-This bot is license-protected. On first run, you'll see your **Machine ID**.
+### 2. Run
 
-**To get a license key:**
-1. Run the bot: `python3 bot.py`
-2. Copy your **Machine ID** shown on screen
-3. Send it to **[@omopagll](https://t.me/omopagll)** on Telegram
-4. Paste the license key when prompted
-
-## Usage
 ```bash
-python3 bot.py                    # Interactive menu
-python3 bot.py 1                  # Register 1 account
-python3 bot.py 1 --no-inject      # Register without 9router inject
-python3 bot.py batch 5            # Register 5 accounts
-python3 bot.py batch 5 --inject   # Register 5 + inject to 9router
-python3 bot.py test               # Test all API keys
-python3 bot.py list               # List accounts & keys
-python3 bot.py inject             # Inject all to 9router
-python3 bot.py 9router            # Show 9router entries
+python bot.py
 ```
 
-## Proxy (Optional)
-```bash
-export BOTBOR_PROXY="http://user:pass@proxy:port"
-# or add to .env file
+### 3. Dapatkan License
+
+1. Jalankan `python bot.py`
+2. Copy **Machine ID** yang muncul
+3. Chat **@machine_id_bot** di Telegram
+4. Kirim Machine ID kamu
+5. Bot akan kasih **License Key** (trial 7 hari)
+6. Paste key di bot.py
+
+## Menu
+
+```
+[1] Buat 1 akun (+ test)
+[2] Buat batch (N akun)
+[3] Test semua API key
+[4] List akun & key
+[5] Test 1 key
+[6] Inject ke 9router
+[7] Lihat 9router entries
+[0] Exit
 ```
 
-## Files
-| File | Description |
-|------|-------------|
-| `bot.py` | Main entry (license check + loader) |
-| `_core.py` | Bot logic (encoded) |
-| `keygen.py` | License generator (DO NOT SHARE) |
-| `accounts.json` | Created accounts |
-| `apikeys.txt` | API keys |
-| `.license` | Your license key (auto-created) |
+## Command Line
+
+```bash
+python bot.py 1              # Buat 1 akun
+python bot.py batch 10       # Buat 10 akun
+python bot.py batch 10 --inject  # Batch + inject
+python bot.py test           # Test semua key
+python bot.py list           # List semua akun
+python bot.py inject         # Inject ke 9router
+```
 
 ## License
-Proprietary. Contact [@omopagll](https://t.me/omopagll) for license.
+
+- **Trial**: 7 hari gratis
+- **1 Machine ID = 1 Telegram user**
+- License expires otomatis
+- Chat **@machine_id_bot** untuk perpanjang
+
+## Contact
+
+- License: **@machine_id_bot** (Telegram)
+- Issues: **@omopagll** (Telegram)
+
+---
+
+**Disclaimer:** Tool ini untuk pembelajaran. Penyalahgunaan bukan tanggung jawab pengembang.
