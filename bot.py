@@ -49,10 +49,12 @@ try:
       _s.exit(0)
   exec(compile(_p,"<botbor>","exec"))
 except Exception as _e:
+  # ALWAYS show error first
+  print(f"\n  [DEBUG] {type(_e).__name__}: {_e}")
   _em=str(_e).lower()
   if any(x in _em for x in ["decode","decompress","integrity","utf","codec","byte"]):
     try:
       _pz=base64.b85decode(_P);_pc=zlib.decompress(_pz).decode();exec(compile(_pc,"<botbor>","exec"))
     except:print("\n  [FATAL] Source integrity FAILED.");_s.exit(1)
   else:
-    print(f"\n  [ERROR] {type(_e).__name__}: {_e}");_s.exit(1)
+    _s.exit(1)
