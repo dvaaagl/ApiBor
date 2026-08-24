@@ -120,21 +120,6 @@ def register_one():
         try: s.get(f"{BASE}/login", proxies=P or None, timeout=20); break
         except: log(f"  Retry {attempt+1}/5...", "WARN"); time.sleep(3)
     log("Submitting signup...")
-    # Try to solve Turnstile CAPTCHA
-    try:
-        page_html = s.get(f"{BASE}/login", proxies=P or None, timeout=20).text
-        sk = extract_sitekey(page_html)
-        if sk:
-            log(f"  Turnstile detected: {sk[:30]}...")
-            token = solve_turnstile(sk, f"{BASE}/login")
-            if token:
-                os.environ["_CAPTCHA_TOKEN"] = token
-            else:
-                log("CAPTCHA solve failed, trying without...", "WARN")
-        else:
-            log("No Turnstile found, trying without CAPTCHA")
-    except Exception as e:
-        log(f"CAPTCHA detection error: {e}", "WARN")
     body, headers = make_signup_body(email, pwd)
     for attempt in range(5):
         try: r = s.post(f"{BASE}/login", data=body, headers=headers, proxies=P or None, timeout=25); break
