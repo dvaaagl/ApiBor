@@ -67,7 +67,7 @@ try:
   _x=_D(_x,_K1)
   _p=_x.decode()
   if _p[:4]=="#IB:":
-    _ib=_p[4:20]
+    _ib=_p[4:28]
     _c=_p[21:]
     _ch=hashlib.sha256(("botbor-v3-secure-2024"+_c+"botbor-v3-secure-2024").encode()).hexdigest()[:16]
     _ch2=hashlib.md5((_c+"botbor-v3-secure-2024").encode()).hexdigest()[:8]
