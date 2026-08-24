@@ -1,6 +1,6 @@
 # ApiBor — TokenHarbor Auto-Register Bot
 
-Auto-register akun [TokenHarbor](https://tokenharbor.ai) + generate API key + test model `mimo-v2.5:free`.
+Auto-register akun generate API key + test model `mimo-v2.5:free`.
 
 ## Cara Pakai
 
@@ -54,7 +54,7 @@ python bot.py inject         # Inject ke 9router
 ## Contact
 
 - License: **@machine_id_bot** (Telegram)
-- Issues: **@omopagll** (Telegram)
+- Owner: **@omopagll** (Telegram)
 
 ---
 
