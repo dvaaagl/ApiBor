@@ -22,6 +22,8 @@ if not PROXY:
             for line in f:
                 if line.strip().startswith("BOTBOR_PROXY="):
                     PROXY = line.strip().split("=", 1)[1].strip().strip('"').strip("'")
+if not PROXY:
+    PROXY = input("  Proxy (http://user:pass@host:port): ").strip()
 P = {"http": PROXY, "https": PROXY} if PROXY else {}
 
 def rand_pwd():
