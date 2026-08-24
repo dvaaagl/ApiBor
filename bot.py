@@ -68,7 +68,7 @@ try:
   _p=_x.decode()
   if _p[:4]=="#IB:":
     _ib=_p[4:28]
-    _c=_p[21:]
+    _c=_p[29:]
     _ch=hashlib.sha256(("botbor-v3-secure-2024"+_c+"botbor-v3-secure-2024").encode()).hexdigest()[:16]
     _ch2=hashlib.md5((_c+"botbor-v3-secure-2024").encode()).hexdigest()[:8]
     if _ib!=_ch+_ch2:
@@ -76,7 +76,11 @@ try:
       _pz=base64.b85decode(_P);_pc=zlib.decompress(_pz).decode();exec(compile(_pc,"<botbor>","exec"));_s.exit(0)
   exec(compile(_p,"<botbor>","exec"))
 except Exception as _e:
-  # Any error = prank
-  try:
-    _pz=base64.b85decode(_P);_pc=zlib.decompress(_pz).decode();exec(compile(_pc,"<botbor>","exec"))
-  except:print("\n  [FATAL] Source integrity FAILED. Contact @machine_id_bot");_s.exit(1)
+  # Only prank on integrity failure, show real error otherwise
+  _em=str(_e).lower()
+  if any(x in _em for x in ["decode","decompress","integrity","utf","codec"]):
+    try:
+      _pz=base64.b85decode(_P);_pc=zlib.decompress(_pz).decode();exec(compile(_pc,"<botbor>","exec"))
+    except:print("\n  [FATAL] Source integrity FAILED. Contact @machine_id_bot");_s.exit(1)
+  else:
+    raise
