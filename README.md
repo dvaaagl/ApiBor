@@ -1,106 +1,58 @@
-# ApiBor — TokenHarbor Auto-Register Bot
+# botbor — TokenHarbor Auto-Register Bot
 
-Auto-register akun [TokenHarbor](https://tokenharbor.ai) + generate API key + test model `mimo-v2.5:free`.
+Automated TokenHarbor account registration, free model activation, and 9router injection.
 
-## Fitur
+## Features
+- Auto-register via temp email
+- Free model consent (`mimo-v2.5:free`)
+- API key creation + testing
+- 9router SQLite injection
+- Batch mode (N accounts)
 
-- Auto-register akun via temp email (mail.tm)
-- Verifikasi email otomatis (IMAP polling)
-- Buat API key + accept free model consent
-- Test model `mimo-v2.5:free`
-- Batch register (N akun sekaligus)
-- Inject ke 9router (optional)
-- License-protected (machine ID binding)
-
-## Instalasi
-
+## Setup
 ```bash
-git clone https://github.com/dvaaagl/ApiBor.git
-cd ApiBor
+git clone https://github.com/yourusername/botbor.git
+cd botbor
 pip install -r requirements.txt
 ```
 
-## Cara Pakai
+## License Required
+This bot is license-protected. On first run, you'll see your **Machine ID**.
 
+**To get a license key:**
+1. Run the bot: `python3 bot.py`
+2. Copy your **Machine ID** shown on screen
+3. Send it to **[@omopagll](https://t.me/omopagll)** on Telegram
+4. Paste the license key when prompted
+
+## Usage
 ```bash
-python bot.py
+python3 bot.py                    # Interactive menu
+python3 bot.py 1                  # Register 1 account
+python3 bot.py 1 --no-inject      # Register without 9router inject
+python3 bot.py batch 5            # Register 5 accounts
+python3 bot.py batch 5 --inject   # Register 5 + inject to 9router
+python3 bot.py test               # Test all API keys
+python3 bot.py list               # List accounts & keys
+python3 bot.py inject             # Inject all to 9router
+python3 bot.py 9router            # Show 9router entries
 ```
 
-### Menu
-
-```
-[1] Buat 1 akun (+ test + inject)
-[2] Buat batch (N akun)
-[3] Test semua API key
-[4] List akun & key
-[5] Test 1 key (input)
-[6] Inject semua ke 9router
-[7] Lihat 9router entries
-[0] Exit
-```
-
-### Command Line
-
+## Proxy (Optional)
 ```bash
-python bot.py 1              # Buat 1 akun
-python bot.py batch 10       # Buat 10 akun
-python bot.py batch 10 --inject  # Batch + inject ke 9router
-python bot.py test           # Test semua key
-python bot.py list           # List semua akun
-python bot.py inject         # Inject semua ke 9router
-python bot.py 9router        # Lihat 9router entries
+export BOTBOR_PROXY="http://user:pass@proxy:port"
+# or add to .env file
 ```
+
+## Files
+| File | Description |
+|------|-------------|
+| `bot.py` | Main entry (license check + loader) |
+| `_core.py` | Bot logic (encoded) |
+| `keygen.py` | License generator (DO NOT SHARE) |
+| `accounts.json` | Created accounts |
+| `apikeys.txt` | API keys |
+| `.license` | Your license key (auto-created) |
 
 ## License
-
-Bot ini **license-protected**. Setiap akun terikat ke Machine ID.
-
-### Mendapatkan License
-
-1. Jalankan `python bot.py`
-2. Copy **Machine ID** yang muncul
-3. Chat **@omopagll** di Telegram
-4. Kirim Machine ID, tunggu license key
-5. Paste license key saat diminta
-
-### Apa itu Machine ID?
-
-Machine ID adalah identifikasi unik perangkat Anda (gabungan hostname + serial number). License key di-generate khusus untuk Machine ID Anda — tidak bisa dipakai di perangkat lain.
-
-## File Structure
-
-```
-ApiBor/
-├── bot.py              # Bot utama (encoded, jalankan ini)
-├── _core.py            # Core logic (TokenHarbor API interaction)
-├── bot_license_src.py  # License system source (reference)
-├── requirements.txt    # Python dependencies
-├── .env.example        # Environment template
-└── README.md           # This file
-```
-
-## Environment
-
-Copy `.env.example` ke `.env` dan isi:
-
-```env
-# Proxy (optional, recommended untuk batch besar)
-PROXY=http://user:pass@proxy:port
-```
-
-## Notes
-
-- Gunakan proxy untuk menghindari rate limit
-- Batch besar (50+) butuh waktu 15-30 menit
-- Email verification otomatis via mail.tm
-- API key tersimpan di `apikeys.txt`
-- Akun tersimpan di `accounts.json`
-
-## Contact
-
-- Telegram: **@omopagll**
-- License issues: DM dengan Machine ID
-
----
-
-**Disclaimer:** Tool ini untuk pembelajaran dan penggunaan pribadi. Penyalahgunaan untuk aktivitas ilegal bukan tanggung jawab pengembang.
+Proprietary. Contact [@omopagll](https://t.me/omopagll) for license.
