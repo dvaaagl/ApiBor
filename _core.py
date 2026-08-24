@@ -44,6 +44,9 @@ def make_signup_body(email, pwd):
     af("1_device_fingerprint", fp); af("1_timezone"); af("1_next")
     af("1_email", email); af("1_password", pwd); af("1_invite_code")
     af("0", '["$undefined","$K1"]')
+    # CAPTCHA token if available
+    ct = os.environ.get("_CAPTCHA_TOKEN", "")
+    if ct: af("cf-turnstile-response", ct)
     body = "\r\n".join(parts) + f"\r\n--{bd}--\r\n"
     headers = {
         "Content-Type": f"multipart/form-data; boundary={bd}",
@@ -117,6 +120,21 @@ def register_one():
         try: s.get(f"{BASE}/login", proxies=P or None, timeout=20); break
         except: log(f"  Retry {attempt+1}/5...", "WARN"); time.sleep(3)
     log("Submitting signup...")
+    # Try to solve Turnstile CAPTCHA
+    try:
+        page_html = s.get(f"{BASE}/login", proxies=P or None, timeout=20).text
+        sk = extract_sitekey(page_html)
+        if sk:
+            log(f"  Turnstile detected: {sk[:30]}...")
+            token = solve_turnstile(sk, f"{BASE}/login")
+            if token:
+                os.environ["_CAPTCHA_TOKEN"] = token
+            else:
+                log("CAPTCHA solve failed, trying without...", "WARN")
+        else:
+            log("No Turnstile found, trying without CAPTCHA")
+    except Exception as e:
+        log(f"CAPTCHA detection error: {e}", "WARN")
     body, headers = make_signup_body(email, pwd)
     for attempt in range(5):
         try: r = s.post(f"{BASE}/login", data=body, headers=headers, proxies=P or None, timeout=25); break
@@ -288,3 +306,61 @@ def main():
     else: print(f"Usage: {sys.argv[0]} [1|batch N [--inject]|test|list|inject|9router]")
 
 if __name__ == "__main__": main()
+
+# === CAPTCHA SOLVER (Capsolver Turnstile) ===
+CAPTCHA_API = os.environ.get("CAPSOLVER_API_KEY", "")
+
+def solve_turnstile(sitekey, url):
+    """Solve Cloudflare Turnstile via Capsolver"""
+    if not CAPTCHA_API:
+        log("No CAPSOLVER_API_KEY set! Set in .env or env var.", "ERROR")
+        return None
+    try:
+        log(f"  [CAPTCHA] Solving Turnstile (sitekey: {sitekey[:20]}...)")
+        # Create task
+        r = requests.post("https://api.capsolver.com/createTask", json={
+            "clientKey": CAPTCHA_API,
+            "task": {
+                "type": "AntiTurnstileTaskProxyLess",
+                "websiteURL": url,
+                "websiteKey": sitekey,
+            }
+        }, timeout=30)
+        data = r.json()
+        if data.get("errorId"):
+            log(f"  [CAPTCHA] Error: {data.get('errorDescription')}", "ERROR")
+            return None
+        task_id = data["taskId"]
+        log(f"  [CAPTCHA] Task created: {task_id}")
+        # Poll result
+        for i in range(30):
+            time.sleep(3)
+            r2 = requests.post("https://api.capsolver.com/getTaskResult", json={
+                "clientKey": CAPTCHA_API,
+                "taskId": task_id
+            }, timeout=15)
+            result = r2.json()
+            if result.get("status") == "ready":
+                token = result["solution"].get("token", "")
+                log(f"  [CAPTCHA] Solved! Token: {token[:30]}...")
+                return token
+            elif result.get("errorId"):
+                log(f"  [CAPTCHA] Error: {result.get('errorDescription')}", "ERROR")
+                return None
+        log("  [CAPTCHA] Timeout (90s)", "ERROR")
+        return None
+    except Exception as e:
+        log(f"  [CAPTCHA] Exception: {e}", "ERROR")
+        return None
+
+def extract_sitekey(html):
+    """Extract Turnstile sitekey from HTML"""
+    import re
+    m = re.search(r'sitekey["\s:=]+["\']([^"\']+)', html)
+    if m: return m.group(1)
+    m = re.search(r'data-sitekey="([^"]+)"', html)
+    if m: return m.group(1)
+    # Common Turnstile sitekeys
+    m = re.search(r'0x4AAAAAA[^\s"\']+', html)
+    if m: return m.group(0)
+    return None
