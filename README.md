@@ -24,7 +24,7 @@ python bot.py
 2. Copy **Machine ID** yang muncul
 3. Chat **@machine_id_bot** di Telegram
 4. Kirim Machine ID kamu
-5. Bot akan kasih **License Key** (trial 7 hari)
+5. Bot akan kasih **License Key**
 6. Paste key di bot.py
 
 ## Menu
@@ -50,13 +50,6 @@ python bot.py test           # Test semua key
 python bot.py list           # List semua akun
 python bot.py inject         # Inject ke 9router
 ```
-
-## License
-
-- **Trial**: 7 hari gratis
-- **1 Machine ID = 1 Telegram user**
-- License expires otomatis
-- Chat **@machine_id_bot** untuk perpanjang
 
 ## Contact
 
