@@ -1,4 +1,4 @@
-# ApiBor — TokenHarbor Auto-Register Bot
+# TwokenHarbor Auto-Register Bot
 
 Auto-register akun generate API key + test model `mimo-v2.5:free`.
 
